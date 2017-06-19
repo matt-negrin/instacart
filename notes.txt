@@ -1,0 +1,27 @@
+# simple benchmark model
+function:
+    - take training dataset (product-order level)
+    - simple model: top x % most popular products
+    - return list of products
+
+function:
+    - take top x % most popular product list
+    - take test dataset (product-order level)
+    - create prediction for each row (product-order)
+    - reformat dataset into (order, product list)
+    - output dataset
+
+# simple classification model
+function:
+    - take training dataset (product-order level)
+    - classification model: build classification fit based on features
+    - features: aisle, department, order_number, dow, hour_of_day, days_since_prior_order
+    - return model fit
+
+function:
+    - take model fit
+    - take test dataset (product-order level)
+    - create prediction for each row (product-order)
+    - reformat dataset into (order, product list)
+    - output dataset
+

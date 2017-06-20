@@ -1,27 +1,51 @@
+# for all models
+functions we need:
+    - create new_train
+    - create new_valid
+    - create new_test
+    - classification model evaluation
+
+create new_valid:
+    - all unique products per user, joined onto orders.evaluation_set=='prior' by='user_id'
+
+create new_test:
+    - concat new_train & new_prior, all unique products per user of combined set, joined onto orders.evaluation_set=='test' by 'user_id'
+
 # simple benchmark model
 function:
-    - take training dataset (product-order level)
+    - take training dataset (new_train)
     - simple model: top x % most popular products
     - return list of products
 
 function:
     - take top x % most popular product list
-    - take test dataset (product-order level)
-    - create prediction for each row (product-order)
+    - take validation dataset (new_valid)
+    - create (1/0) prediction for each row (product-order)
     - reformat dataset into (order, product list)
     - output dataset
 
 # simple classification model
 function:
-    - take training dataset (product-order level)
+    - take training dataset (new_train)
     - classification model: build classification fit based on features
     - features: aisle, department, order_number, dow, hour_of_day, days_since_prior_order
     - return model fit
 
 function:
     - take model fit
-    - take test dataset (product-order level)
-    - create prediction for each row (product-order)
-    - reformat dataset into (order, product list)
+    - take validation dataset (new_valid)
+    - create (1/0) prediction for each row (product-order)
+    - flag for output: yes/no reformated dataset into (order, product list)
     - output dataset
 
+
+
+ order_id, user_id, eval_set, order_number, order_dow, order_hour_of_day, days_since_prior_order  
+ 2539329,1,prior,1,2,08,  
+ 2398795,1,prior,2,3,07,15.0  
+ 473747,1,prior,3,3,12,21.0  
+
+ # test dataframe: orders.eval_set==test
+ order_id, user_id
+
+new_test = join(test_orders, prior_orders.reordered==1)
